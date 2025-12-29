@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# android/gradle wrapper binary
+android/gradle/wrapper/gradle-wrapper.jar
