@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Elif-Ba Ses Eğitimi (MVP)
 
-## Getting Started
+Flutter tabanlı “Elif-Ba Ses Eğitimi” uygulamasının minimum çalışır sürümü. Amaç, Android’de mikrofondan ses kaydı alıp dosya yolunu ekranda göstermek.
 
-First, run the development server:
+## Özellikler
+- Material 3 arayüzü.
+- Hedef hece seçimi (ثَ / ثِ / ثُ).
+- Mikrofon izni kontrolü ve isteği (permission_handler).
+- Ses kaydı başlatma/durdurma ve dönen path’in ekranda gösterilmesi (record).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Proje yapısı
+```
+lib/
+  app/           # Tema ve uygulama ayarları
+  features/recorder/  # Kayıt ekranı, durum modeli, servis
+  shared/widgets/     # Ortak UI bileşenleri
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Kurulum ve çalıştırma
+1. Flutter SDK yolunu `android/local.properties` içinde `flutter.sdk` satırına kendi ortamınıza göre yazın.
+2. Bağımlılıkları indirmek için kök dizinde:
+   ```bash
+   flutter pub get
+   ```
+3. Android’de çalıştırmak için:
+   ```bash
+   flutter run
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## GitHub'a gönderim (push)
+1. Mevcut değişiklikleri kontrol edin:
+   ```bash
+   git status -sb
+   ```
+2. Gerekirse commit oluşturun (örnek):
+   ```bash
+   git add .
+   git commit -m "Mesajınız"
+   ```
+3. Uzak depoya gönderin:
+   ```bash
+   git push origin work
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Push hatası için ipucu
+GitHub "ikili dosyalar desteklenmez" benzeri bir uyarı verirse, genellikle yanlışlıkla `build/` veya `node_modules/` gibi büyük/derlenmiş klasörler eklenmiştir. Sorunu çözmek için:
+- `git status` ile takip edilen dosyaları kontrol edin; gerekirse `git restore --staged <dosya>` ile temizleyin.
+- Tekrar commit ve push deneyin.
+- Bu repo, ikili boyut uyarılarından kaçınmak için `android/gradle/wrapper/gradle-wrapper.jar` dosyasını versiyon kontrolüne eklemez. Flutter projesi önce Gradle wrapper dosyasını isteme hatası verirse, aşağıdaki komutu çalıştırarak jar’ı yerelde yeniden üretebilirsiniz:
+  ```bash
+  ./gradlew wrapper
+  ```
+  Bu işlem jar’ı yeniden oluşturur ancak `.gitignore` sayesinde depoya eklenmez.
 
-## Learn More
+## Android izni
+`android/app/src/main/AndroidManifest.xml` dosyasına `android.permission.RECORD_AUDIO` izni eklendi. Manifest içinde, `<application>` etiketinden önce tanımlıdır.
 
-To learn more about Next.js, take a look at the following resources:
+## iOS notu
+`ios/Runner/Info.plist` içine `NSMicrophoneUsageDescription` anahtarını eklemeniz gerekir. Bu MVP’de iOS için kurulum tamamlanmadı; ileride eklenmelidir.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Notlar
+- Ağ, yapay zekâ veya backend entegrasyonu yoktur.
+- Kod, küçük ve okunabilir parçalara ayrılmıştır; gerektiğinde açıklayıcı yorumlar eklenmiştir.
