@@ -4,7 +4,6 @@
 
     <application
         android:label="Elif-Ba Ses Eğitimi"
-        android:name="io.flutter.app.FlutterApplication"
         android:icon="@android:drawable/ic_btn_speak_now">
         <activity
             android:name=".MainActivity"
