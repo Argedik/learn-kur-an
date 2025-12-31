@@ -1,9 +1,11 @@
 // Lightweight wrapper around the record package and permission handling.
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:record/record.dart';
 
 class RecorderService {
-  RecorderService({AudioRecorder? recorder}) : _recorder = recorder ?? AudioRecorder();
+  RecorderService({AudioRecorder? recorder})
+      : _recorder = recorder ?? AudioRecorder();
 
   final AudioRecorder _recorder;
 
@@ -21,8 +23,13 @@ class RecorderService {
     final hasRecorderPermission = await _recorder.hasPermission();
     if (!hasRecorderPermission) return null;
 
+    final directory = await getTemporaryDirectory();
+    final path =
+        '${directory.path}/recording_${DateTime.now().millisecondsSinceEpoch}.wav';
+
     await _recorder.start(
       const RecordConfig(encoder: AudioEncoder.wav),
+      path: path,
     );
     return 'Recording started';
   }
